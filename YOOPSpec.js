@@ -622,7 +622,7 @@
                 Init: function () {
                 },
                 Public: {
-                    a:[]
+                    a: []
                 }
             });
 
@@ -1128,23 +1128,78 @@
     it("获得当前版本号", function () {
         expect(YYC.YOOP.version).toBeString();
     });
-    /*
-    describe("YOOP使用方式", function () {
-        describe("支持AMD、CMD、CommonJS规范", function () {
-            it("可在seajs、node.js中使用", function () {
-               var yoop = require("./YOOP.js");
 
-                yoop.Class({});
-                ...
+    describe("测试命名前缀的问题", function () {
+        it("测试私有成员前缀", function () {
+            var A = YYC.Class({
+                Private: {
+                    _val: 100
+                },
+                Public: {
+                    getVal: function () {
+                        return this._val;
+                    }
+                }
             });
-        });
 
-        it("支持通过script标签直接引用",function(){
-            页面上引用<script src="./YOOP.js"></script>
-            通过YYC命名空间使用
-            YYC.Class({});
-            ...
+            var B = YYC.Class(A, {
+                Private: {
+                    __val: 200
+                },
+                Public: {
+                    getVal: function () {
+                        return this.base();
+                    }
+                }
+            });
+
+            expect(new B().getVal()).toEqual(100);
+        });
+        it("测试保护成员前缀", function () {
+            var A = YYC.Class({
+                Protected: {
+                    P_val: 100
+                },
+                Public: {
+                    getVal: function () {
+                        return this.P_val;
+                    }
+                }
+            });
+
+            var B = YYC.Class(A, {
+                Protected: {
+                    P__val: 200
+                },
+                Public: {
+                    getVal: function () {
+                        return this.base();
+                    }
+                }
+            });
+
+            expect(new B().getVal()).toEqual(100);
         });
     });
-    */
+
+
+    /*
+     describe("YOOP使用方式", function () {
+     describe("支持AMD、CMD、CommonJS规范", function () {
+     it("可在seajs、node.js中使用", function () {
+     var yoop = require("./YOOP.js");
+
+     yoop.Class({});
+     ...
+     });
+     });
+
+     it("支持通过script标签直接引用",function(){
+     页面上引用<script src="./YOOP.js"></script>
+     通过YYC命名空间使用
+     YYC.Class({});
+     ...
+     });
+     });
+     */
 });
