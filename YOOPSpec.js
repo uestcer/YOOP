@@ -928,12 +928,12 @@
                 });
                 var B = YYC.Class(A, {
                     Protected: {
-                        P____canNotAttack: function (num) {
+                        P_canNotAttack: function (num) {
                         }
                     },
                     Public: {
                         attack: function () {
-                            this.P____canNotAttack(1);
+                            this.P_canNotAttack(1);
 
                             this.t1();
 
@@ -951,7 +951,7 @@
                 });
                 var C = YYC.Class(B, {
                     Protected: {
-                        P____canNotAttack: function (num) {
+                        P_canNotAttack: function (num) {
                             testNum += num;
                         }
                     },
