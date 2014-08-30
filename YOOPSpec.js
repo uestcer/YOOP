@@ -1,20 +1,20 @@
 ﻿describe("YOOP", function () {
-    it("不存在虚属性的概念（如果企图声明虚属性，会抛出异常）", function () {
-        expect(function () {
-            YYC.Class({
-                Virtual: {
-                    a: ""
-                }
-            });
-        }).toThrow();
-        expect(function () {
-            YYC.AClass({
-                Virtual: {
-                    a: ""
-                }
-            });
-        }).toThrow();
-    });
+//    it("不存在虚属性的概念（如果企图声明虚属性，会抛出异常）", function () {
+//        expect(function () {
+//            YYC.Class({
+//                Virtual: {
+//                    a: ""
+//                }
+//            });
+//        }).toThrow();
+//        expect(function () {
+//            YYC.AClass({
+//                Virtual: {
+//                    a: ""
+//                }
+//            });
+//        }).toThrow();
+//    });
     it("静态方法的this是指向类的", function () {
         var A = YYC.Class({
             Static: {
@@ -1130,8 +1130,8 @@
     });
 
     describe("测试命名前缀的问题", function () {
-        it("测试私有成员前缀", function () {
-            var A = YYC.Class({
+        it("为了区分不同层级中同名的私有成员，每个层级类的私有成员前缀不同。这样可解决“当子类调用父类成员时，可能会出现父类成员调用子类的私有成员”的问题", function () {
+            var A = YYC.AClass({
                 Private: {
                     _val: 100
                 },
@@ -1155,10 +1155,14 @@
 
             expect(new B().getVal()).toEqual(100);
         });
-        it("测试保护成员前缀", function () {
-            var A = YYC.Class({
+        it("每个层级类的保护成员前缀都相同。" +
+            "因为如果父类与子类的保护成员同名，则父类的该保护成员一般都是设计为虚成员，专门供子类覆写的。" +
+            "因此当子类调用父类成员时，本来就期望父类成员调用子类覆写的保护成员。", function () {
+            var A = YYC.AClass({
                 Protected: {
-                    P_val: 100
+                    Virtual:{
+                        P_val: 100
+                    }
                 },
                 Public: {
                     getVal: function () {
@@ -1169,7 +1173,7 @@
 
             var B = YYC.Class(A, {
                 Protected: {
-                    P__val: 200
+                    P_val: 200
                 },
                 Public: {
                     getVal: function () {
@@ -1178,7 +1182,7 @@
                 }
             });
 
-            expect(new B().getVal()).toEqual(100);
+            expect(new B().getVal()).toEqual(200);
         });
     });
 

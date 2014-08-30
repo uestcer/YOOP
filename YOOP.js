@@ -428,12 +428,12 @@
 
                     for (name in virtual) {
                         if (virtual.hasOwnProperty(name)) {
-                            if (typeof virtual[name] !== "function") {
-                                throw new Error("Virtual attribute is not allowed!");
-                            }
-                            else {
+//                            if (typeof virtual[name] !== "function") {
+//                                throw new Error("Virtual attribute is not allowed!");
+//                            }
+//                            else {
                                 _class.prototype[name] = virtual[name];
-                            }
+//                            }
                         }
                     }
                 },
